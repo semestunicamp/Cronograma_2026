@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -84,8 +85,8 @@ const LABEL={palestra:"Palestra",oficina:"Oficina / Minicurso",roda:"Roda de con
 const E=(d,s,e,t,org="",theme="",speaker="",li="",tbc=false,hero=false,bio="")=>({d,s,e,t,org,theme,speaker,li,tbc,hero,bio});
 const EV=[
 // QUARTA 21/10
-E("21","18:00","18:30","geral","Abertura / Stands"),
-E("21","18:30","19:45","palestra","Globo","Estatística, IA e publicidade: o que a gente faz na Globo"),
+E("21","18:00","18:45","geral","Abertura / Stands"),
+E("21","18:45","19:45","palestra","Globo","Estatística, IA e publicidade: o que a gente faz na Globo"),
 E("21","19:45","20:45","palestra","TransUnion","Transformando dados em decisões e carreiras: Conheça como a TransUnion utiliza dados e tecnologia para gerar confiança no mercado e descubra oportunidades para construir sua carreira."),
 E("21","20:45","21:00","pausa","Coffee Break"),
 E("21","21:00","21:15","din","Dinâmica"),
@@ -96,7 +97,7 @@ E("22","18:30","19:15","palestra","Instituto Guimarães","Os Bastidores das Elei
 E("22","19:15","19:45","palestra","Instituto AGP","Do desenho à decisão: como o olhar estatístico transforma dados em pesquisa. Quando amostra, contexto e diferentes fontes de dados precisam contar a mesma história"),
 E("22","19:45","20:00","pausa","Coffee Break"),
 E("22","20:00","20:15","din","Dinâmica"),
-E("22","20:15","21:15","palestra","Serasa","A Era da Inteligência Artificial: Por que os Estatísticos serão mais importantes do que nunca"),
+E("22","20:15","21:15","palestra","Serasa Experian","A Era da Inteligência Artificial: Por que os Estatísticos serão mais importantes do que nunca","Ricardo Thomaziello","https://www.linkedin.com/in/rthomaziello/",false,false,"Diretor de Analytics na Serasa Experian."),
 E("22","21:15","21:45","palestra","AI Manager na EY","A Nova Era dos Dados: Como a IA Está Transformando a Carreira dos Profissionais de Estatística","Jhonatan Luna","https://www.linkedin.com/in/jhonatanluna/",false,true,"Atua com IA generativa, agentes autônomos, governança de IA e transformação digital, além de dedicar-se à formação e mentoria de profissionais."),
 // SEXTA 23/10
 E("23","18:00","18:30","geral","Abertura / Stands"),
@@ -111,7 +112,7 @@ E("26","16:00","17:00","oficina","Agibank","Da extração à visualização: an�
 E("26","17:00","18:00","pausa","Mini Coffee Break"),
 E("26","18:00","18:30","geral","Abertura / Stands"),
 E("26","18:30","19:30","palestra","Agibank","O preço do amanhã | Modelagem Preditiva e Gerenciamento de Risco em Pricing Estratégico - Como transformar incerteza em decisão econômica"),
-E("26","19:30","20:00","palestra","Professor","","Alex Rodrigo dos Santos","https://www.linkedin.com/in/alex-rodrigo-sousa-769031117/",false,true,"Professor do Departamento de Estatística da UNICAMP, especializado em métodos não paramétricos, análise de dados funcionais e ondaletas."),
+E("26","19:30","20:00","palestra","Professor","","Alex Rodrigo Sousa","https://www.linkedin.com/in/alex-rodrigo-sousa-769031117/",false,true,"Professor do Departamento de Estatística da UNICAMP, especializado em métodos não paramétricos, análise de dados funcionais e ondaletas."),
 E("26","20:00","20:15","pausa","Coffee Break"),
 E("26","20:15","20:30","din","Dinâmica"),
 E("26","20:30","21:00","palestra","Federação Paulista de Futebol (FPF)","Aplicação Prática de Dados no Futebol","Daniel Henrique Rosa Motta","https://www.linkedin.com/in/danielmottar/",false,true,"Analista de competições na FPF, com experiência em análise de desempenho no Flamengo e Atlético-MG e consultoria de dados."),
@@ -123,7 +124,7 @@ E("27","18:30","19:30","palestra","Equifax","Dados, estatística e IA no mercado
 E("27","19:30","20:30","palestra","","A AI sabe mais estatística que todos nós juntos. E agora?","Bernardo Lustosa","https://www.linkedin.com/in/dr-bernardo-lustosa/"),
 E("27","20:30","21:00","geral","Apresentação Final"),
 E("27","21:00","21:30","pausa","Coffee Break"),
-E("27","21:30","22:00","geral","Happy Hour (Bernardo Lustosa)")
+E("27","","","geral","Happy hour com Bernardo Lustosa")
 ];
 
 const $=s=>document.querySelector(s);
@@ -157,7 +158,7 @@ function ok(e){
   return true;
 }
 
-function placeOf(e){return e.t==="oficina"?"":"Auditório do IMECC - UNICAMP"}
+function placeOf(e){return e.t==="oficina"?(e.org==="Agibank"?"L003 (Anexo II)":""):"Auditório do IMECC - UNICAMP"}
 function calLinks(e){
   const loc=placeOf(e);
   const title="SEMEST 2026 · "+((e.hero&&e.speaker)?e.speaker:(e.org||e.speaker||"Atividade"));
@@ -169,16 +170,18 @@ function calLinks(e){
 
 function card(e){
   const k=e.d+"-"+e.s,talk=isTalk(e.t),main=e.hero&&e.speaker?e.speaker:(e.org||e.speaker||"A definir");
-  const sub=e.hero&&e.speaker?e.org:(e.org&&e.speaker?(e.t==="roda"?"Com ":"")+e.speaker:"");
+  const sub=e.hero&&e.speaker?e.org:(e.org&&e.speaker?(e.t==="roda"?"Com ":"Palestrante: ")+e.speaker:"");
   const live=isLive(e);
+  const low=!!sub&&!!e.bio&&!(e.hero&&e.speaker); // palestrante junto da descrição
   return `<article class="c ${e.t}${live?" live":""}">
     <div class="tm"><b>${e.s}</b><span>${e.e}</span></div>
     <div class="bd">
       ${talk?`<div class="tp">${LABEL[e.t]}${e.tbc?'<span class="tag w">A confirmar</span>':''}${live?'<span class="tag l">Agora</span>':''}</div>`:""}
       <h3>${esc(main)}</h3>
-      ${sub?`<p class="sp">${esc(sub)}</p>`:""}
+      ${sub&&!low?`<p class="sp">${esc(sub)}</p>`:""}
       ${e.theme||(e.t==="palestra"&&!e.speaker)?`<p class="th${e.theme?"":" m"}">${e.theme?esc(e.theme):"Tema a definir"}</p>`:""}
-      ${e.bio?`<p class="bio">${esc(e.bio)}</p>`:""}
+      ${low?`<p class="sp" style="margin-top:8px;font-weight:600;color:var(--ink)">${esc(sub)}</p>`:""}
+      ${e.bio?`<p class="bio"${low?' style="margin-top:2px"':""}>${esc(e.bio)}</p>`:""}
       ${talk?`<p class="sp">📍 ${placeOf(e)?esc(placeOf(e)):"Local a definir"}</p>`:""}
       ${(Array.isArray(e.li)?e.li:(e.li?[["LinkedIn",e.li]]:[])).map(([l,u])=>`<a class="li" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join(" ")}
       ${talk?calLinks(e):""}
@@ -220,3 +223,5 @@ setInterval(render,60000);
 </script>
 </body>
 </html>
+
+</body></html>
